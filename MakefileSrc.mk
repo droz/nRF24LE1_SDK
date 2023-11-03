@@ -1,12 +1,12 @@
 # Programs to use for creating dependencies, compiling source files, and creating the library file, respectively
 DEP = sdcc
 CC  = sdcc
-LIB = sdcclib
+LIB = sdar
 
 # Flags for above programs when calling them from the command line
 DFLAGS = -MM $(INCDIRS) $<
 CFLAGS = --model-large --std-c99 $(INCDIRS) -c $< -o "$(OBJDIR)/"
-LFLAGS =
+LFLAGS = -rc
 
 # File extensions for dependency files, source files, object files, and library files, respectively
 DEPEXT = d

@@ -51,7 +51,7 @@
 ////////////////////////////
 #define rtc2_run()			reg_bits_set(RTC2CON, RTC2CON_ENABLE) 			//Run RTC2
 #define rtc2_stop()			reg_bits_clear(RTC2CON, RTC2CON_ENABLE)			//Stop RTC2
-#define rtc2_is_running()	((RTC2CON & RTC2CON_ENABLE) : true ? false)		//True if RTC2 is running, false otherwise
+#define rtc2_is_running()	((RTC2CON & RTC2CON_ENABLE) ? true : false)		//True if RTC2 is running, false otherwise
 #define rtc2_sfr_capture()	reg_bits_set(RTC2CON, RTC2CON_SFR_CAPTURE) 		//Captures RTC2 registers
 
 

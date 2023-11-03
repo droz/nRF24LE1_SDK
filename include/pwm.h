@@ -65,7 +65,7 @@ typedef enum
 {
 	PWM_CHANNEL_0,
 	PWM_CHANNEL_1
-}pwm_channel_t;
+} pwm_channel_t;
 
 
 ////////////////////////////
