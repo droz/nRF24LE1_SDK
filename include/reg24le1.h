@@ -770,7 +770,11 @@ __SBIT(FSR_SB_ENDBG , 0xFF)
 ///////////////////////////////////////////////////////////////////////////////
 // Simple instructions
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef __SDCC
+#define nop() asm("nop")	//No-operation instruction wrapper
+#else
 #define nop() __asm nop __endasm	//No-operation instruction wrapper
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // Macros for waiting on bit values
@@ -796,8 +800,15 @@ __SBIT(FSR_SB_ENDBG , 0xFF)
 ///////////////////////////////////////////////////////////////////////////////
 // Macros for changing SBITs
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef __SDCC
+// These are just for GCC to be able to parse the code and do syntax highlight
+#define sbit_set(sbit_pin_set)               asm("nop")
+#define sbit_clear(sbit_pin_clear)           asm("nop")
+#define sbit_complement(sbit_pin_complement) asm("nop")
+#else
 #define sbit_set(sbit_pin_set)					__asm setb _##sbit_pin_set __endasm			//Set an SBIT
 #define sbit_clear(sbit_pin_clear)				__asm clr  _##sbit_pin_clear __endasm		//Clear an SBIT
 #define sbit_complement(sbit_pin_complement)	__asm cpl  _##sbit_pin_complement __endasm	//Complement an SBIT
+#endif
 
 #endif
