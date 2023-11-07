@@ -38,9 +38,10 @@
 #endif
 
 #ifndef __SDCC
+#include <stdbool.h>
 #define __SFR(a,b) volatile uint8_t a;
 #define __SFR16(a,b) volatile uint16_t a;
-#define __SBIT(a, b) volatile _Bool a;
+#define __SBIT(a, b) volatile bool a;
 #else
 #define __SFR(a,b) __sfr __at b a;
 #define __SFR16(a,b) __sfr16 __at b a;
