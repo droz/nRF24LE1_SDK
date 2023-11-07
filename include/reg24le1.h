@@ -32,287 +32,301 @@
 #include <stdint.h>
 #include "target_nrf24le1_sdk.h"
 
+#ifndef __SDCC
+#define __data
+#define __xdata
+#endif
+
+#ifndef __SDCC
+#define __SFR(a,b) volatile uint8_t a;
+#define __SFR16(a,b) volatile uint16_t a;
+#define __SBIT(a, b) volatile _Bool a;
+#else
+#define __SFR(a,b) __sfr __at b a;
+#define __SFR16(a,b) __sfr16 __at b a;
+#define __SBIT(a, b) __sbit __at b a;
+#endif
 
 ///////////////////////////////////////////
 // Single-byte __sfrs
 ///////////////////////////////////////////
-__sfr __at 0x80 P0;
-__sfr __at 0x81 SP;
-__sfr __at 0x82 DPL;
-__sfr __at 0x83 DPH;
-__sfr __at 0x84 DPL1;
-__sfr __at 0x85 DPH1;
-__sfr __at 0x87 PCON;
-__sfr __at 0x88 TCON;
-__sfr __at 0x89 TMOD;
-__sfr __at 0x8A TL0;
-__sfr __at 0x8B TL1;
-__sfr __at 0x8C TH0;
-__sfr __at 0x8D TH1;
-__sfr __at 0x8F P3CON;
-__sfr __at 0x90 P1;
-__sfr __at 0x92 DPS;
-__sfr __at 0x93 P0DIR;
-__sfr __at 0x94 P1DIR;
-__sfr __at 0x95 P2DIR;
-__sfr __at 0x96 P3DIR;
-__sfr __at 0x97 P2CON;
-__sfr __at 0x98 S0CON;
-__sfr __at 0x99 S0BUF;
-__sfr __at 0x9E P0CON;
-__sfr __at 0x9F P1CON;
-__sfr __at 0xA0 P2;
-__sfr __at 0xA1 PWMDC0;
-__sfr __at 0xA2 PWMDC1;
-__sfr __at 0xA3 CLKCTRL;
-__sfr __at 0xA4 PWRDWN;
-__sfr __at 0xA5 WUCON;
-__sfr __at 0xA6 INTEXP;
-__sfr __at 0xA7 MEMCON;
-__sfr __at 0xA8 IEN0;
-__sfr __at 0xA9 IP0;
-__sfr __at 0xAA S0RELL;
-__sfr __at 0xAB RTC2CPT01;
-__sfr __at 0xAC RTC2CPT10;
-__sfr __at 0xAD CLKLFCTRL;
-__sfr __at 0xAE OPMCON;
-__sfr __at 0xAF WDSV;
-__sfr __at 0xB0 P3;
-__sfr __at 0xB1 RSTREAS;
-__sfr __at 0xB2 PWMCON;
-__sfr __at 0xB3 RTC2CON;
-__sfr __at 0xB4 RTC2CMP0;
-__sfr __at 0xB5 RTC2CMP1;
-__sfr __at 0xB6 RTC2CPT00;
-__sfr __at 0xB7 SPISRDSZ;
-__sfr __at 0xB8 IEN1;
-__sfr __at 0xB9 IP1;
-__sfr __at 0xBA S0RELH;
-__sfr __at 0xBC SPISCON0;
-__sfr __at 0xBD SPISCON1;
-__sfr __at 0xBE SPISSTAT;
-__sfr __at 0xBF SPISDAT;
-__sfr __at 0xC0 IRCON;
-__sfr __at 0xC1 CCEN;
-__sfr __at 0xC2 CCL1;
-__sfr __at 0xC3 CCH1;
-__sfr __at 0xC4 CCL2;
-__sfr __at 0xC5 CCH2;
-__sfr __at 0xC6 CCL3;
-__sfr __at 0xC7 CCH3;
-__sfr __at 0xC8 T2CON;
-__sfr __at 0xC9 MPAGE;
-__sfr __at 0xC9 _XPAGE; //for SDCC's memory initialization
-__sfr __at 0xCA CRCL;
-__sfr __at 0xCB CRCH;
-__sfr __at 0xCC TL2;
-__sfr __at 0xCD TH2;
-__sfr __at 0xCE WUOPC1;
-__sfr __at 0xCF WUOPC0;
-__sfr __at 0xD0 PSW;
-__sfr __at 0xD1 ADCCON3;
-__sfr __at 0xD2 ADCCON2;
-__sfr __at 0xD3 ADCCON1;
-__sfr __at 0xD4 ADCDATH;
-__sfr __at 0xD5 ADCDATL;
-__sfr __at 0xD6 RNGCTL;
-__sfr __at 0xD7 RNGDAT;
-__sfr __at 0xD8 ADCON;
-__sfr __at 0xD9 W2SADR;
-__sfr __at 0xDA W2DAT;
-__sfr __at 0xDB COMPCON;
-__sfr __at 0xDC POFCON;
-__sfr __at 0xDD CCPDATIA;
-__sfr __at 0xDE CCPDATIB;
-__sfr __at 0xDF CCPDATO;
-__sfr __at 0xE0 ACC;
-__sfr __at 0xE1 W2CON1;
-__sfr __at 0xE2 W2CON0;
-__sfr __at 0xE4 SPIRCON0;
-__sfr __at 0xE5 SPIRCON1;
-__sfr __at 0xE6 SPIRSTAT;
-__sfr __at 0xE7 SPIRDAT;
-__sfr __at 0xE8 RFCON;
-__sfr __at 0xE9 MD0;
-__sfr __at 0xEA MD1;
-__sfr __at 0xEB MD2;
-__sfr __at 0xEC MD3;
-__sfr __at 0xED MD4;
-__sfr __at 0xEE MD5;
-__sfr __at 0xEF ARCON;
-__sfr __at 0xF0 B;
-__sfr __at 0xF8 FSR;
-__sfr __at 0xF9 FPCR;
-__sfr __at 0xFA FCR;
-__sfr __at 0xFC SPIMCON0;
-__sfr __at 0xFD SPIMCON1;
-__sfr __at 0xFE SPIMSTAT;
-__sfr __at 0xFF SPIMDAT;
+__SFR(P0       , 0x80)
+__SFR(SP       , 0x81)
+__SFR(DPL      , 0x82)
+__SFR(DPH      , 0x83)
+__SFR(DPL1     , 0x84)
+__SFR(DPH1     , 0x85)
+__SFR(PCON     , 0x87)
+__SFR(TCON     , 0x88)
+__SFR(TMOD     , 0x89)
+__SFR(TL0      , 0x8A)
+__SFR(TL1      , 0x8B)
+__SFR(TH0      , 0x8C)
+__SFR(TH1      , 0x8D)
+__SFR(P3CON    , 0x8F)
+__SFR(P1       , 0x90)
+__SFR(DPS      , 0x92)
+__SFR(P0DIR    , 0x93)
+__SFR(P1DIR    , 0x94)
+__SFR(P2DIR    , 0x95)
+__SFR(P3DIR    , 0x96)
+__SFR(P2CON    , 0x97)
+__SFR(S0CON    , 0x98)
+__SFR(S0BUF    , 0x99)
+__SFR(P0CON    , 0x9E)
+__SFR(P1CON    , 0x9F)
+__SFR(P2       , 0xA0)
+__SFR(PWMDC0   , 0xA1)
+__SFR(PWMDC1   , 0xA2)
+__SFR(CLKCTRL  , 0xA3)
+__SFR(PWRDWN   , 0xA4)
+__SFR(WUCON    , 0xA5)
+__SFR(INTEXP   , 0xA6)
+__SFR(MEMCON   , 0xA7)
+__SFR(IEN0     , 0xA8)
+__SFR(IP0      , 0xA9)
+__SFR(S0RELL   , 0xAA)
+__SFR(RTC2CPT01, 0xAB)
+__SFR(RTC2CPT10, 0xAC)
+__SFR(CLKLFCTRL, 0xAD)
+__SFR(OPMCON   , 0xAE)
+__SFR(WDSV     , 0xAF)
+__SFR(P3       , 0xB0)
+__SFR(RSTREAS  , 0xB1)
+__SFR(PWMCON   , 0xB2)
+__SFR(RTC2CON  , 0xB3)
+__SFR(RTC2CMP0 , 0xB4)
+__SFR(RTC2CMP1 , 0xB5)
+__SFR(RTC2CPT00, 0xB6)
+__SFR(SPISRDSZ , 0xB7)
+__SFR(IEN1     , 0xB8)
+__SFR(IP1      , 0xB9)
+__SFR(S0RELH   , 0xBA)
+__SFR(SPISCON0 , 0xBC)
+__SFR(SPISCON1 , 0xBD)
+__SFR(SPISSTAT , 0xBE)
+__SFR(SPISDAT  , 0xBF)
+__SFR(IRCON    , 0xC0)
+__SFR(CCEN     , 0xC1)
+__SFR(CCL1     , 0xC2)
+__SFR(CCH1     , 0xC3)
+__SFR(CCL2     , 0xC4)
+__SFR(CCH2     , 0xC5)
+__SFR(CCL3     , 0xC6)
+__SFR(CCH3     , 0xC7)
+__SFR(T2CON    , 0xC8)
+__SFR(MPAGE    , 0xC9)
+__SFR(_XPAGE   , 0xC9) //for SDCC's memory initialization
+__SFR(CRCL     , 0xCA)
+__SFR(CRCH     , 0xCB)
+__SFR(TL2      , 0xCC)
+__SFR(TH2      , 0xCD)
+__SFR(WUOPC1   , 0xCE)
+__SFR(WUOPC0   , 0xCF)
+__SFR(PSW      , 0xD0)
+__SFR(ADCCON3  , 0xD1)
+__SFR(ADCCON2  , 0xD2)
+__SFR(ADCCON1  , 0xD3)
+__SFR(ADCDATH  , 0xD4)
+__SFR(ADCDATL  , 0xD5)
+__SFR(RNGCTL   , 0xD6)
+__SFR(RNGDAT   , 0xD7)
+__SFR(ADCON    , 0xD8)
+__SFR(W2SADR   , 0xD9)
+__SFR(W2DAT    , 0xDA)
+__SFR(COMPCON  , 0xDB)
+__SFR(POFCON   , 0xDC)
+__SFR(CCPDATIA , 0xDD)
+__SFR(CCPDATIB , 0xDE)
+__SFR(CCPDATO  , 0xDF)
+__SFR(ACC      , 0xE0)
+__SFR(W2CON1   , 0xE1)
+__SFR(W2CON0   , 0xE2)
+__SFR(SPIRCON0 , 0xE4)
+__SFR(SPIRCON1 , 0xE5)
+__SFR(SPIRSTAT , 0xE6)
+__SFR(SPIRDAT  , 0xE7)
+__SFR(RFCON    , 0xE8)
+__SFR(MD0      , 0xE9)
+__SFR(MD1      , 0xEA)
+__SFR(MD2      , 0xEB)
+__SFR(MD3      , 0xEC)
+__SFR(MD4      , 0xED)
+__SFR(MD5      , 0xEE)
+__SFR(ARCON    , 0xEF)
+__SFR(B        , 0xF0)
+__SFR(FSR      , 0xF8)
+__SFR(FPCR     , 0xF9)
+__SFR(FCR      , 0xFA)
+__SFR(SPIMCON0 , 0xFC)
+__SFR(SPIMCON1 , 0xFD)
+__SFR(SPIMSTAT , 0xFE)
+__SFR(SPIMDAT  , 0xFF)
 
 ///////////////////////////////////////////
 // Two-byte __sfrs
 ///////////////////////////////////////////
-__sfr16 __at 0xC3C2 CC1;
-__sfr16 __at 0xC5C4 CC2;
-__sfr16 __at 0xC7C6 CC3;
-__sfr16 __at 0xCBCA CRC;
-__sfr16 __at 0x8C8A T0;
-__sfr16 __at 0x8D8B T1;
-__sfr16 __at 0xCDCC T2;
-__sfr16 __at 0xBAAA	S0REL;
-__sfr16 __at 0xD4D5 ADCDAT;
+__SFR16(CC1   , 0xC3C2)
+__SFR16(CC2   , 0xC5C4)
+__SFR16(CC3   , 0xC7C6)
+__SFR16(CRC   , 0xCBCA)
+__SFR16(T0    , 0x8C8A)
+__SFR16(T1    , 0x8D8B)
+__SFR16(T2    , 0xCDCC)
+__SFR16(S0REL , 0xBAAA)
+__SFR16(ADCDAT, 0xD4D5)
 
 ///////////////////////////////////////////
 // __sbit defines for P0 register
 ///////////////////////////////////////////
-__sbit __at 0x80 P0_SB_D0;
-__sbit __at 0x81 P0_SB_D1;
-__sbit __at 0x82 P0_SB_D2;
-__sbit __at 0x83 P0_SB_D3;
-__sbit __at 0x84 P0_SB_D4;
-__sbit __at 0x85 P0_SB_D5;
-__sbit __at 0x86 P0_SB_D6;
-__sbit __at 0x87 P0_SB_D7;
+__SBIT(P0_SB_D0, 0x80)
+__SBIT(P0_SB_D1, 0x81)
+__SBIT(P0_SB_D2, 0x82)
+__SBIT(P0_SB_D3, 0x83)
+__SBIT(P0_SB_D4, 0x84)
+__SBIT(P0_SB_D5, 0x85)
+__SBIT(P0_SB_D6, 0x86)
+__SBIT(P0_SB_D7, 0x87)
 
 ///////////////////////////////////////////
 // __sbit defines for TCON register
 ///////////////////////////////////////////
-__sbit __at 0x88 TCON_SB_IT0;
-__sbit __at 0x89 TCON_SB_IE0;
-__sbit __at 0x8A TCON_SB_IT1;
-__sbit __at 0x8B TCON_SB_IE1;
-__sbit __at 0x8C TCON_SB_TR0;
-__sbit __at 0x8D TCON_SB_TF0;
-__sbit __at 0x8E TCON_SB_TR1;
-__sbit __at 0x8F TCON_SB_TF1;
+__SBIT(TCON_SB_IT0, 0x88)
+__SBIT(TCON_SB_IE0, 0x89)
+__SBIT(TCON_SB_IT1, 0x8A)
+__SBIT(TCON_SB_IE1, 0x8B)
+__SBIT(TCON_SB_TR0, 0x8C)
+__SBIT(TCON_SB_TF0, 0x8D)
+__SBIT(TCON_SB_TR1, 0x8E)
+__SBIT(TCON_SB_TF1, 0x8F)
 
 ///////////////////////////////////////////
 // __sbit defines for P1 register
 ///////////////////////////////////////////
-__sbit __at 0x90 P1_SB_D0;
-__sbit __at 0x91 P1_SB_D1;
-__sbit __at 0x92 P1_SB_D2;
-__sbit __at 0x93 P1_SB_D3;
-__sbit __at 0x94 P1_SB_D4;
-__sbit __at 0x95 P1_SB_D5;
-__sbit __at 0x96 P1_SB_D6;
-__sbit __at 0x97 P1_SB_D7;
+__SBIT(P1_SB_D0, 0x90)
+__SBIT(P1_SB_D1, 0x91)
+__SBIT(P1_SB_D2, 0x92)
+__SBIT(P1_SB_D3, 0x93)
+__SBIT(P1_SB_D4, 0x94)
+__SBIT(P1_SB_D5, 0x95)
+__SBIT(P1_SB_D6, 0x96)
+__SBIT(P1_SB_D7, 0x97)
 
 ///////////////////////////////////////////
 // __sbit defines for S0CON register
 ///////////////////////////////////////////
-__sbit __at 0x98 S0CON_SB_RI0;
-__sbit __at 0x99 S0CON_SB_TI0;
-__sbit __at 0x9A S0CON_SB_RB80;
-__sbit __at 0x9B S0CON_SB_TB80;
-__sbit __at 0x9C S0CON_SB_REN0;
-__sbit __at 0x9D S0CON_SB_SM20;
-__sbit __at 0x9E S0CON_SB_SM1;
-__sbit __at 0x9F S0CON_SB_SM0;
+__SBIT(S0CON_SB_RI0 , 0x98)
+__SBIT(S0CON_SB_TI0 , 0x99)
+__SBIT(S0CON_SB_RB80, 0x9A)
+__SBIT(S0CON_SB_TB80, 0x9B)
+__SBIT(S0CON_SB_REN0, 0x9C)
+__SBIT(S0CON_SB_SM20, 0x9D)
+__SBIT(S0CON_SB_SM1 , 0x9E)
+__SBIT(S0CON_SB_SM0 , 0x9F)
 
 ///////////////////////////////////////////
 // __sbit defines for P2 register
 ///////////////////////////////////////////
-__sbit __at 0xA0 P2_SB_D0;
-__sbit __at 0xA1 P2_SB_D1;
-__sbit __at 0xA2 P2_SB_D2;
-__sbit __at 0xA3 P2_SB_D3;
-__sbit __at 0xA4 P2_SB_D4;
-__sbit __at 0xA5 P2_SB_D5;
-__sbit __at 0xA6 P2_SB_D6;
-__sbit __at 0xA7 P2_SB_D7;
+__SBIT(P2_SB_D0, 0xA0)
+__SBIT(P2_SB_D1, 0xA1)
+__SBIT(P2_SB_D2, 0xA2)
+__SBIT(P2_SB_D3, 0xA3)
+__SBIT(P2_SB_D4, 0xA4)
+__SBIT(P2_SB_D5, 0xA5)
+__SBIT(P2_SB_D6, 0xA6)
+__SBIT(P2_SB_D7, 0xA7)
 
 ///////////////////////////////////////////
 // __sbit defines for IEN0 register
 ///////////////////////////////////////////
-__sbit __at 0xA8 IEN0_SB_IFP;
-__sbit __at 0xA9 IEN0_SB_T0;
-__sbit __at 0xAA IEN0_SB_POFIRQ;
-__sbit __at 0xAB IEN0_SB_T1;
-__sbit __at 0xAC IEN0_SB_UART;
-__sbit __at 0xAD IEN0_SB_T2;
-__sbit __at 0xAF IEN0_SB_GLOBAL;
+__SBIT(IEN0_SB_IFP   , 0xA8)
+__SBIT(IEN0_SB_T0    , 0xA9)
+__SBIT(IEN0_SB_POFIRQ, 0xAA)
+__SBIT(IEN0_SB_T1    , 0xAB)
+__SBIT(IEN0_SB_UART  , 0xAC)
+__SBIT(IEN0_SB_T2    , 0xAD)
+__SBIT(IEN0_SB_GLOBAL, 0xAF)
 
 ///////////////////////////////////////////
 // __sbit defines for P3 register
 ///////////////////////////////////////////
-__sbit __at 0xB0 P3_SB_D0;
-__sbit __at 0xB1 P3_SB_D1;
-__sbit __at 0xB2 P3_SB_D2;
-__sbit __at 0xB3 P3_SB_D3;
-__sbit __at 0xB4 P3_SB_D4;
-__sbit __at 0xB5 P3_SB_D5;
-__sbit __at 0xB6 P3_SB_D6;
-__sbit __at 0xB7 P3_SB_D7;
+__SBIT(P3_SB_D0, 0xB0)
+__SBIT(P3_SB_D1, 0xB1)
+__SBIT(P3_SB_D2, 0xB2)
+__SBIT(P3_SB_D3, 0xB3)
+__SBIT(P3_SB_D4, 0xB4)
+__SBIT(P3_SB_D5, 0xB5)
+__SBIT(P3_SB_D6, 0xB6)
+__SBIT(P3_SB_D7, 0xB7)
 
 ///////////////////////////////////////////
 // __sbit defines for IEN1 register
 ///////////////////////////////////////////
-__sbit __at 0xB8 IEN1_SB_RFRDY;
-__sbit __at 0xB9 IEN1_SB_RFIRQ;
-__sbit __at 0xBA IEN1_SB_SPI_2WIRE;
-__sbit __at 0xBB IEN1_SB_WUOPIRQ;
-__sbit __at 0xBC IEN1_SB_MISCIRQ;
-__sbit __at 0xBD IEN1_SB_TICK;
-__sbit __at 0xBF IEN1_SB_T2EXTRLD;
+__SBIT(IEN1_SB_RFRDY    , 0xB8)
+__SBIT(IEN1_SB_RFIRQ    , 0xB9)
+__SBIT(IEN1_SB_SPI_2WIRE, 0xBA)
+__SBIT(IEN1_SB_WUOPIRQ  , 0xBB)
+__SBIT(IEN1_SB_MISCIRQ  , 0xBC)
+__SBIT(IEN1_SB_TICK     , 0xBD)
+__SBIT(IEN1_SB_T2EXTRLD , 0xBF)
 
 ///////////////////////////////////////////
 // __sbit defines for IRCON register
 ///////////////////////////////////////////
-__sbit __at 0xC0 IRCON_SB_RFRDY;
-__sbit __at 0xC1 IRCON_SB_RFIRQ;
-__sbit __at 0xC2 IRCON_SB_SPI_2WIRE;
-__sbit __at 0xC3 IRCON_SB_WUOPIRQ;
-__sbit __at 0xC4 IRCON_SB_MISCIRQ;
-__sbit __at 0xC5 IRCON_SB_TICK;
-__sbit __at 0xC6 IRCON_SB_TF2;
-__sbit __at 0xC7 IRCON_SB_EXF2;
+__SBIT(IRCON_SB_RFRDY    , 0xC0)
+__SBIT(IRCON_SB_RFIRQ    , 0xC1)
+__SBIT(IRCON_SB_SPI_2WIRE, 0xC2)
+__SBIT(IRCON_SB_WUOPIRQ  , 0xC3)
+__SBIT(IRCON_SB_MISCIRQ  , 0xC4)
+__SBIT(IRCON_SB_TICK     , 0xC5)
+__SBIT(IRCON_SB_TF2      , 0xC6)
+__SBIT(IRCON_SB_EXF2     , 0xC7)
 
 ///////////////////////////////////////////
 // __sbit defines for T2CON register
 ///////////////////////////////////////////
-__sbit __at 0xC8 T2CON_SB_T2I0;
-__sbit __at 0xC9 T2CON_SB_T2I1;
-__sbit __at 0xCA T2CON_SB_T2CM;
-__sbit __at 0xCB T2CON_SB_T2R0;
-__sbit __at 0xCC T2CON_SB_T2R1;
-__sbit __at 0xCD T2CON_SB_I2FR;
-__sbit __at 0xCE T2CON_SB_I3FR;
-__sbit __at 0xCF T2CON_SB_T2PS;
+__SBIT(T2CON_SB_T2I0, 0xC8)
+__SBIT(T2CON_SB_T2I1, 0xC9)
+__SBIT(T2CON_SB_T2CM, 0xCA)
+__SBIT(T2CON_SB_T2R0, 0xCB)
+__SBIT(T2CON_SB_T2R1, 0xCC)
+__SBIT(T2CON_SB_I2FR, 0xCD)
+__SBIT(T2CON_SB_I3FR, 0xCE)
+__SBIT(T2CON_SB_T2PS, 0xCF)
 
 ///////////////////////////////////////////
 // __sbit defines for PSW register
 ///////////////////////////////////////////
-__sbit __at 0xD7 PSW_SB_CY;
-__sbit __at 0xD6 PSW_SB_AC;
-__sbit __at 0xD5 PSW_SB_F0;
-__sbit __at 0xD4 PSW_SB_RS1;
-__sbit __at 0xD3 PSW_SB_RS0;
-__sbit __at 0xD2 PSW_SB_OV;
-__sbit __at 0xD1 PSW_SB_F1;
-__sbit __at 0xD0 PSW_SB_P;
+__SBIT(PSW_SB_CY , 0xD7)
+__SBIT(PSW_SB_AC , 0xD6)
+__SBIT(PSW_SB_F0 , 0xD5)
+__SBIT(PSW_SB_RS1, 0xD4)
+__SBIT(PSW_SB_RS0, 0xD3)
+__SBIT(PSW_SB_OV , 0xD2)
+__SBIT(PSW_SB_F1 , 0xD1)
+__SBIT(PSW_SB_P  , 0xD0)
 
 ///////////////////////////////////////////
 // __sbit defines for ADCON register
 ///////////////////////////////////////////
-__sbit __at 0xDF ADCON_SB_BD;
+__SBIT(ADCON_SB_BD, 0xDF)
 
 ///////////////////////////////////////////
 // __sbit defines for RFCON register
 ///////////////////////////////////////////
-__sbit __at 0xE8 RFCON_SB_RFCE;
-__sbit __at 0xE9 RFCON_SB_RFCSN;
-__sbit __at 0xEA RFCON_SB_RFCKEN;
+__SBIT(RFCON_SB_RFCE  , 0xE8)
+__SBIT(RFCON_SB_RFCSN , 0xE9)
+__SBIT(RFCON_SB_RFCKEN, 0xEA)
 
 ///////////////////////////////////////////
 // __sbit defines for FSR register
 ///////////////////////////////////////////
-__sbit __at 0xFA FSR_SB_RDISMB;
-__sbit __at 0xFB FSR_SB_INFEN;
-__sbit __at 0xFC FSR_SB_RDYN;
-__sbit __at 0xFD FSR_SB_WEN;
-__sbit __at 0xFE FSR_SB_STP;
-__sbit __at 0xFF FSR_SB_ENDBG;
+__SBIT(FSR_SB_RDISMB, 0xFA)
+__SBIT(FSR_SB_INFEN , 0xFB)
+__SBIT(FSR_SB_RDYN  , 0xFC)
+__SBIT(FSR_SB_WEN   , 0xFD)
+__SBIT(FSR_SB_STP   , 0xFE)
+__SBIT(FSR_SB_ENDBG , 0xFF)
 
 ///////////////////////////////////////////
 // Bit defines for PCON register
