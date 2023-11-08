@@ -802,9 +802,9 @@ __SBIT(FSR_SB_ENDBG , 0xFF)
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __SDCC
 // These are just for GCC to be able to parse the code and do syntax highlight
-#define sbit_set(sbit_pin_set)               asm("nop")
-#define sbit_clear(sbit_pin_clear)           asm("nop")
-#define sbit_complement(sbit_pin_complement) asm("nop")
+#define sbit_set(sbit_pin_set)               asm("setb " #sbit_pin_set)
+#define sbit_clear(sbit_pin_clear)           asm("clr " #sbit_pin_clear)
+#define sbit_complement(sbit_pin_complement) asm("cpl " #sbit_pin_complement)
 #else
 #define sbit_set(sbit_pin_set)					__asm setb _##sbit_pin_set __endasm			//Set an SBIT
 #define sbit_clear(sbit_pin_clear)				__asm clr  _##sbit_pin_clear __endasm		//Clear an SBIT
