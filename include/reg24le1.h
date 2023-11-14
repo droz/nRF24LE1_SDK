@@ -41,10 +41,12 @@
 #include <stdbool.h>
 #define __SFR(a,b) volatile uint8_t a;
 #define __SFR16(a,b) volatile uint16_t a;
+#define __SFR32(a,b) volatile uint32_t a;
 #define __SBIT(a, b) volatile bool a;
 #else
 #define __SFR(a,b) __sfr __at b a;
 #define __SFR16(a,b) __sfr16 __at b a;
+#define __SFR32(a,b) __sfr32 __at b a;
 #define __SBIT(a, b) __sbit __at b a;
 #endif
 
@@ -176,6 +178,14 @@ __SFR16(T1    , 0x8D8B)
 __SFR16(T2    , 0xCDCC)
 __SFR16(S0REL , 0xBAAA)
 __SFR16(ADCDAT, 0xD4D5)
+__SFR16(MD10  , 0xEAE9)
+__SFR16(MD32  , 0xECEB)
+__SFR16(MD54  , 0xEEED)
+
+///////////////////////////////////////////
+// Four-byte __sfrs
+///////////////////////////////////////////
+__SFR32(MD3210, 0xECEBEAE9)
 
 ///////////////////////////////////////////
 // __sbit defines for P0 register
